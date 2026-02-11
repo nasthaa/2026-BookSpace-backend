@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Asus\\Documents\\2026-BookSpace-project\\2026-bookspace-backend\\BookSpace.Api\\BookSpace.Api.csproj": {}
+    "C:\\Users\\Asus\\Documents\\2026-BookSpace-project\\2026-BookSpace-backend\\BookSpace.Api\\BookSpace.Api.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Asus\\Documents\\2026-BookSpace-project\\2026-bookspace-backend\\BookSpace.Api\\BookSpace.Api.csproj": {
+    "C:\\Users\\Asus\\Documents\\2026-BookSpace-project\\2026-BookSpace-backend\\BookSpace.Api\\BookSpace.Api.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Asus\\Documents\\2026-BookSpace-project\\2026-bookspace-backend\\BookSpace.Api\\BookSpace.Api.csproj",
+        "projectUniqueName": "C:\\Users\\Asus\\Documents\\2026-BookSpace-project\\2026-BookSpace-backend\\BookSpace.Api\\BookSpace.Api.csproj",
         "projectName": "BookSpace.Api",
-        "projectPath": "C:\\Users\\Asus\\Documents\\2026-BookSpace-project\\2026-bookspace-backend\\BookSpace.Api\\BookSpace.Api.csproj",
+        "projectPath": "C:\\Users\\Asus\\Documents\\2026-BookSpace-project\\2026-BookSpace-backend\\BookSpace.Api\\BookSpace.Api.csproj",
         "packagesPath": "C:\\Users\\Asus\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Asus\\Documents\\2026-BookSpace-project\\2026-bookspace-backend\\BookSpace.Api\\obj\\",
+        "outputPath": "C:\\Users\\Asus\\Documents\\2026-BookSpace-project\\2026-BookSpace-backend\\BookSpace.Api\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\Asus\\AppData\\Roaming\\NuGet\\NuGet.Config"

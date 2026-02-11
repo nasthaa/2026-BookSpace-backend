@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("BookSpace.Api")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+3d99776b3d9f3fed9c3907e02bbbb731f0f86726")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+da89c21365eb16e24a98510b3390c2ee56ec33a2")]
 [assembly: System.Reflection.AssemblyProductAttribute("BookSpace.Api")]
 [assembly: System.Reflection.AssemblyTitleAttribute("BookSpace.Api")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

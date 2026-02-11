@@ -1,0 +1,9 @@
+# Environment files
+.env
+
+# ASP.NET config local
+appsettings.Development.json
+
+# Build output
+bin/
+obj/
