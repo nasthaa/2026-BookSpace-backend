@@ -16,6 +16,6 @@ public class Booking
 
     public int RoomId { get; set; }
 
-    [JsonIgnore] // <<< PENTING
+    [JsonIgnore]
     public Room? Room { get; set; }
 }

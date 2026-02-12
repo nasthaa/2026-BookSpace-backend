@@ -4,6 +4,6 @@
 # ASP.NET config local
 appsettings.Development.json
 
-# Build output
-bin/
-obj/
+# Build output (Lebih Aman)
+**/[Bb]in/
+**/[Obj]/
