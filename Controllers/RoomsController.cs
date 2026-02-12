@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using BookSpace.Api.Data;
+using BookSpace.Api.DTOs;
 using BookSpace.Api.Models;
 
 namespace BookSpace.Api.Controllers;
@@ -17,33 +18,64 @@ public class RoomsController : ControllerBase
     }
 
     [HttpGet]
-    public async Task<ActionResult<IEnumerable<Room>>> GetRooms()
+    public async Task<ActionResult<IEnumerable<RoomResponseDto>>> GetRooms()
     {
-        return await _context.Rooms.ToListAsync();
+        return await _context.Rooms
+            .Select(r => new RoomResponseDto
+            {
+                Id = r.Id,
+                Name = r.Name,
+                Capacity = r.Capacity,
+                Location = r.Location
+            })
+            .ToListAsync();
     }
 
     [HttpGet("{id}")]
-    public async Task<ActionResult<Room>> GetRoom(int id)
+    public async Task<ActionResult<RoomResponseDto>> GetRoom(int id)
     {
-        var room = await _context.Rooms.FindAsync(id);
+        var room = await _context.Rooms
+            .Where(r => r.Id == id)
+            .Select(r => new RoomResponseDto
+            {
+                Id = r.Id,
+                Name = r.Name,
+                Capacity = r.Capacity,
+                Location = r.Location
+            })
+            .FirstOrDefaultAsync();
+
         if (room == null) return NotFound();
+
         return room;
     }
 
     [HttpPost]
-    public async Task<ActionResult<Room>> CreateRoom(Room room)
+    public async Task<ActionResult> CreateRoom(CreateRoomDto dto)
     {
+        var room = new Room
+        {
+            Name = dto.Name,
+            Capacity = dto.Capacity,
+            Location = dto.Location
+        };
+
         _context.Rooms.Add(room);
         await _context.SaveChangesAsync();
+
         return CreatedAtAction(nameof(GetRoom), new { id = room.Id }, room);
     }
 
     [HttpPut("{id}")]
-    public async Task<IActionResult> UpdateRoom(int id, Room room)
+    public async Task<IActionResult> UpdateRoom(int id, UpdateRoomDto dto)
     {
-        if (id != room.Id) return BadRequest();
+        var room = await _context.Rooms.FindAsync(id);
+        if (room == null) return NotFound();
 
-        _context.Entry(room).State = EntityState.Modified;
+        room.Name = dto.Name;
+        room.Capacity = dto.Capacity;
+        room.Location = dto.Location;
+
         await _context.SaveChangesAsync();
 
         return NoContent();
