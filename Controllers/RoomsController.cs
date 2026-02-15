@@ -17,10 +17,19 @@ public class RoomsController : ControllerBase
         _context = context;
     }
 
+    // GET api/rooms?page=1&pageSize=10
     [HttpGet]
-    public async Task<ActionResult<IEnumerable<RoomResponseDto>>> GetRooms()
+    public async Task<IActionResult> GetRooms(int page = 1, int pageSize = 10)
     {
-        return await _context.Rooms
+        var query = _context.Rooms
+            .Where(x => !x.IsDeleted)
+            .OrderBy(x => x.Name);
+
+        var total = await query.CountAsync();
+
+        var data = await query
+            .Skip((page - 1) * pageSize)
+            .Take(pageSize)
             .Select(r => new RoomResponseDto
             {
                 Id = r.Id,
@@ -29,13 +38,15 @@ public class RoomsController : ControllerBase
                 Location = r.Location
             })
             .ToListAsync();
+
+        return Ok(new { total, data });
     }
 
     [HttpGet("{id}")]
     public async Task<ActionResult<RoomResponseDto>> GetRoom(int id)
     {
         var room = await _context.Rooms
-            .Where(r => r.Id == id)
+            .Where(r => r.Id == id && !r.IsDeleted)
             .Select(r => new RoomResponseDto
             {
                 Id = r.Id,
@@ -47,17 +58,27 @@ public class RoomsController : ControllerBase
 
         if (room == null) return NotFound();
 
-        return room;
+        return Ok(room);
     }
 
     [HttpPost]
-    public async Task<ActionResult> CreateRoom(CreateRoomDto dto)
+    public async Task<IActionResult> CreateRoom(CreateRoomDto dto)
     {
+        if (!ModelState.IsValid)
+            return BadRequest(ModelState);
+
+        var exists = await _context.Rooms
+            .AnyAsync(x => x.Name == dto.Name && !x.IsDeleted);
+
+        if (exists)
+            return BadRequest(new { message = "Nama ruangan sudah ada" });
+
         var room = new Room
         {
             Name = dto.Name,
             Capacity = dto.Capacity,
-            Location = dto.Location
+            Location = dto.Location,
+            IsDeleted = false
         };
 
         _context.Rooms.Add(room);
@@ -69,15 +90,23 @@ public class RoomsController : ControllerBase
     [HttpPut("{id}")]
     public async Task<IActionResult> UpdateRoom(int id, UpdateRoomDto dto)
     {
+        if (!ModelState.IsValid)
+            return BadRequest(ModelState);
+
         var room = await _context.Rooms.FindAsync(id);
-        if (room == null) return NotFound();
+        if (room == null || room.IsDeleted) return NotFound();
+
+        var exists = await _context.Rooms
+            .AnyAsync(x => x.Name == dto.Name && x.Id != id && !x.IsDeleted);
+
+        if (exists)
+            return BadRequest(new { message = "The room name already exists." });
 
         room.Name = dto.Name;
         room.Capacity = dto.Capacity;
         room.Location = dto.Location;
 
         await _context.SaveChangesAsync();
-
         return NoContent();
     }
 
@@ -85,9 +114,9 @@ public class RoomsController : ControllerBase
     public async Task<IActionResult> DeleteRoom(int id)
     {
         var room = await _context.Rooms.FindAsync(id);
-        if (room == null) return NotFound();
+        if (room == null || room.IsDeleted) return NotFound();
 
-        _context.Rooms.Remove(room);
+        room.IsDeleted = true;
         await _context.SaveChangesAsync();
 
         return NoContent();

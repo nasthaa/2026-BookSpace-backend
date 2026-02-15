@@ -6,5 +6,5 @@ public class Room
     public string Name { get; set; } = string.Empty;
     public int Capacity { get; set; }
     public string Location { get; set; } = string.Empty;
-    // public bool IsDeleted { get; set; } = false;
+    public bool IsDeleted { get; set; } = false;
 }
