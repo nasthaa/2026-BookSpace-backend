@@ -1,21 +1,37 @@
+using System.ComponentModel.DataAnnotations;
+
 namespace BookSpace.Api.DTOs;
 
 public class CreateBookingDto
 {
+    [Required(ErrorMessage = "Borrower name is required.")]
     public string BorrowerName { get; set; } = string.Empty;
-    public int RoomId { get; set; }
-    public DateTime StartTime { get; set; }
-    public DateTime EndTime { get; set; }
+
+    [Required(ErrorMessage = "Room must be selected.")]
+    public int? RoomId { get; set; }
+
+    [Required(ErrorMessage = "Start time is required.")]
+    public DateTime? StartTime { get; set; }
+
+    [Required(ErrorMessage = "End time is required.")]
+    public DateTime? EndTime { get; set; }
 }
 
 public class UpdateBookingDto
 {
-    public int RoomId { get; set; }
-    public DateTime StartTime { get; set; }
-    public DateTime EndTime { get; set; }
+    [Required(ErrorMessage = "Room must be selected.")]
+    public int? RoomId { get; set; }
+
+    [Required(ErrorMessage = "Start time is required.")]
+    public DateTime? StartTime { get; set; }
+
+    [Required(ErrorMessage = "End time is required.")]
+    public DateTime? EndTime { get; set; }
 }
 
 public class UpdateBookingStatusDto
 {
-    public string Status { get; set; } = string.Empty; // Pending | Approved | Rejected
+    [Required]
+    [RegularExpression("Approved|Rejected")]
+    public string Status { get; set; } = string.Empty;
 }
